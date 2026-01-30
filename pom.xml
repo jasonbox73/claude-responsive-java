@@ -101,6 +101,26 @@
                 </configuration>
             </plugin>
 
+            <!-- Dependency Plugin - Copy Dependencies for JAR execution -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.6.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <includeScope>runtime</includeScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Exec Plugin - Run Application -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -108,6 +128,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <mainClass>com.app.responsivejavaapp.App</mainClass>
+                    <classpathScope>runtime</classpathScope>
                 </configuration>
             </plugin>
         </plugins>
