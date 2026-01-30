@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.app.responsivejavaapp.scale.FontManager;
 import com.app.responsivejavaapp.scale.LogicalSize;
+import com.app.responsivejavaapp.scale.ScalableIcon;
 import com.app.responsivejavaapp.scale.ScalablePanel;
 import com.app.responsivejavaapp.scale.ScaleChangeListener;
 import com.app.responsivejavaapp.scale.ScaleManager;
@@ -38,6 +39,7 @@ public class MainWindow extends JFrame implements ScaleChangeListener {
     private JLabel statusLabel;
     private JButton actionButton;
     private JTextArea textArea;
+    private ScalableIcon actionIcon;
 
     public MainWindow() {
         this.scaleManager = ScaleManager.getInstance();
@@ -67,7 +69,9 @@ public class MainWindow extends JFrame implements ScaleChangeListener {
         statusLabel = new JLabel("Welcome to Responsive Java App!");
         statusLabel.setFont(fontManager.getFont(LogicalSize.LARGE, Font.BOLD));
 
-        actionButton = new JButton("Click Me");
+        // Create button with ScalableIcon (auto-selects best resolution for DPI)
+        actionIcon = new ScalableIcon("/icons/action", 24, 24);
+        actionButton = new JButton("Click Me", actionIcon);
         actionButton.setFont(fontManager.getFont(LogicalSize.NORMAL));
 
         textArea = new JTextArea(10, 40);
@@ -126,6 +130,10 @@ public class MainWindow extends JFrame implements ScaleChangeListener {
         statusLabel.setFont(fontManager.getFont(LogicalSize.LARGE, Font.BOLD));
         actionButton.setFont(fontManager.getFont(LogicalSize.NORMAL));
         textArea.setFont(fontManager.getFont(LogicalSize.NORMAL));
+
+        // ScalableIcon automatically uses correct resolution on repaint
+        // Just need to trigger a repaint for the icon to update
+        actionButton.repaint();
 
         // Revalidate and repaint (ScalablePanel handles its own layout scaling)
         revalidate();
