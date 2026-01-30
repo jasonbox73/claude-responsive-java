@@ -40,9 +40,9 @@ public final class MigConstraintScaler {
             "\\b(insets)\\s+(\\d+(?:\\.\\d+)?(?:\\s+\\d+(?:\\.\\d+)?){0,3})");
 
     // Pattern for size constraints: width, height, w, h, wmin, wmax, hmin, hmax
-    // Handles: width 100, width 100!, width 100:150:200, w 100::200
+    // Handles: width 100, width 100!, width 100:150:200, w 100::200, width 50%
     private static final Pattern SIZE_PATTERN = Pattern.compile(
-            "\\b(width|height|wmin|wmax|hmin|hmax|w|h)\\s+([\\d:!.]+)");
+            "\\b(width|height|wmin|wmax|hmin|hmax|w|h)\\s+([\\d:!.%]+)");
 
     // Pattern for padding: pad followed by 1-4 numeric values
     private static final Pattern PAD_PATTERN = Pattern.compile(

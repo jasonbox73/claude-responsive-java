@@ -124,12 +124,12 @@ public class ScalablePanelTest {
 
     @Test
     public void testSetAllConstraints() {
-        ScalablePanel panel = new ScalablePanel("a", "b", "c");
-        panel.setAllConstraints("x", "y", "z");
+        ScalablePanel panel = new ScalablePanel("insets 5", "[50]", "[25]");
+        panel.setAllConstraints("insets 10", "[100]", "[50]");
 
-        assertEquals("x", panel.getOriginalLayoutConstraints());
-        assertEquals("y", panel.getOriginalColumnConstraints());
-        assertEquals("z", panel.getOriginalRowConstraints());
+        assertEquals("insets 10", panel.getOriginalLayoutConstraints());
+        assertEquals("[100]", panel.getOriginalColumnConstraints());
+        assertEquals("[50]", panel.getOriginalRowConstraints());
     }
 
     @Test
