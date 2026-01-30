@@ -11,6 +11,7 @@ import com.app.responsivejavaapp.scale.LogicalSize;
 import com.app.responsivejavaapp.scale.ScalablePanel;
 import com.app.responsivejavaapp.scale.ScaleChangeListener;
 import com.app.responsivejavaapp.scale.ScaleManager;
+import com.app.responsivejavaapp.scale.WindowScaleMonitor;
 
 /**
  * Main application window with DPI-aware UI components.
@@ -31,6 +32,7 @@ public class MainWindow extends JFrame implements ScaleChangeListener {
 
     private final ScaleManager scaleManager;
     private final FontManager fontManager;
+    private WindowScaleMonitor windowScaleMonitor;
 
     private ScalablePanel mainPanel;
     private JLabel statusLabel;
@@ -106,10 +108,14 @@ public class MainWindow extends JFrame implements ScaleChangeListener {
     }
 
     /**
-     * Register this window to receive scale change notifications.
+     * Register this window to receive scale change notifications
+     * and monitor for multi-monitor DPI changes.
      */
     private void registerForScaleChanges() {
         scaleManager.addScaleChangeListener(this);
+
+        // Monitor window movement between monitors with different DPIs
+        windowScaleMonitor = new WindowScaleMonitor(this);
     }
 
     @Override
@@ -149,6 +155,9 @@ public class MainWindow extends JFrame implements ScaleChangeListener {
      */
     @Override
     public void dispose() {
+        if (windowScaleMonitor != null) {
+            windowScaleMonitor.dispose();
+        }
         scaleManager.removeScaleChangeListener(this);
         mainPanel.dispose();
         super.dispose();

@@ -280,6 +280,31 @@ public final class ScaleManager {
     }
 
     /**
+     * Detects the scale factor for a specific GraphicsConfiguration.
+     * Use this when determining the scale factor for a specific monitor.
+     *
+     * @param gc the GraphicsConfiguration to check
+     * @return the scale factor for that configuration
+     */
+    public double detectScaleFactorFor(GraphicsConfiguration gc) {
+        if (gc == null) {
+            return detectScaleFactor();
+        }
+
+        try {
+            AffineTransform tx = gc.getDefaultTransform();
+            double scale = tx.getScaleX();
+            if (scale > 0) {
+                return clampScale(scale);
+            }
+        } catch (Exception e) {
+            logger.debug("Error detecting scale for GraphicsConfiguration", e);
+        }
+
+        return detectScaleFactor();
+    }
+
+    /**
      * Detects the current scale factor using platform-specific methods.
      *
      * @return the detected scale factor
