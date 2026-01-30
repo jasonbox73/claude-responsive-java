@@ -4,6 +4,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import com.app.responsivejavaapp.scale.RuntimeDpiMonitor;
 import com.app.responsivejavaapp.view.MainWindow;
 
 /**
@@ -23,6 +24,15 @@ public class App {
         } catch (Exception e) {
             logger.warn("Could not set system look and feel: {}", e.getMessage());
         }
+
+        // Start runtime DPI monitoring for OS-level scaling changes
+        RuntimeDpiMonitor.getInstance().start();
+
+        // Register shutdown hook to clean up DPI monitor
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            RuntimeDpiMonitor.getInstance().stop();
+            logger.debug("RuntimeDpiMonitor stopped on shutdown");
+        }));
 
         // Launch GUI on Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
